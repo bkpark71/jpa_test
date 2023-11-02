@@ -7,7 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class EmployeeTest {
+public class EmployeeRemoveTest {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
@@ -16,25 +16,26 @@ public class EmployeeTest {
         tx.begin();
         try {
             System.out.println("트랜잭션 시작 !!!");
-            Employee emp = new Employee();
-            emp.setEmpId("202301");
-            emp.setEmpName("홍길동");
-            emp.setDeptId(1);
-            emp.setJoinDate("2023-01-01");
-            emp.setSalary(100_000_000L);
-            System.out.println("비영속 상태");
-            em.persist(emp);
+            Employee e1 = em.find(Employee.class, "202301");
+            System.out.println("DB에서 가져옴");
             System.out.println("영속 상태");
-            em.find(Employee.class, "202301");
-            System.out.println("1차 캐시에서 가져옴");
+
+            em.remove(e1);
+            System.out.println("removed 상태");
+
             System.out.println("커밋 전");
             tx.commit();
+            System.out.println("커밋 후");
+
+            Employee e2 = em.find(Employee.class, "202301");
+            System.out.println("DB 에서 가져옴");
+            System.out.println("e2 is null ? ==> " + (e2));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             tx.rollback();
+        } finally {
+            em.close();
+            emf.close();
         }
-        System.out.println("커밋 후");
-        em.close();
-        emf.close();
     }
 }
