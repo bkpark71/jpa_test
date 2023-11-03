@@ -9,15 +9,27 @@ import javax.persistence.Table;
 @Table(name="employee")
 public class Employee {
     @Id
-    @Column(name="emp_id")
+    @Column(name="emp_id", length = 6)
     private String empId;
-    @Column(name="emp_name")
+    @Column(name="emp_name", nullable = false, length = 10)
     private String empName;
     @Column(name="dept_id")
     private int deptId;
-    @Column(name="join_date")
+    @Column(name="join_date", nullable = false, length = 10)
     private String joinDate;
+    @Column(nullable = false)
     private Long salary;
+
+    public Employee() {
+    }
+
+    public Employee(String empId, String empName, int deptId, String joinDate, Long salary) {
+        this.empId = empId;
+        this.empName = empName;
+        this.deptId = deptId;
+        this.joinDate = joinDate;
+        this.salary = salary;
+    }
 
     public void setEmpId(String empId) {
         this.empId = empId;

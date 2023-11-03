@@ -16,12 +16,12 @@ public class EmployeeTest {
         tx.begin();
         try {
             System.out.println("트랜잭션 시작 !!!");
-            Employee emp = new Employee();
-            emp.setEmpId("202301");
-            emp.setEmpName("홍길동");
-            emp.setDeptId(1);
-            emp.setJoinDate("2023-01-01");
-            emp.setSalary(100_000_000L);
+            Employee emp = new Employee("202301", "test1", 1, null, null);
+//            emp.setEmpId("202301");
+//            emp.setEmpName("홍길동");
+//            emp.setDeptId(1);
+//            emp.setJoinDate("2023-01-01");
+//            emp.setSalary(100_000_000L);
             System.out.println("비영속 상태");
             em.persist(emp);
             System.out.println("영속 상태");

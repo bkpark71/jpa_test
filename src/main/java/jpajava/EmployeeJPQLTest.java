@@ -14,18 +14,27 @@ public class EmployeeJPQLTest {
         tx.begin();
         System.out.println("트랜잭션 시작 !!!");
 
-        String jpql = "select e from Employee e where e.deptId = :deptId";
+        Employee e1 = new Employee("202306", "test6", 1, null, null);
 
+        em.persist(e1);
+
+        Employee e2 = new Employee("202307", "test7", 1, null, null);
+
+        em.persist(e2);
+
+        String jpql = "select e from Employee e where e.deptId = :deptId";
+        em.flush(); // flushmode = auto 임
         TypedQuery<Employee> query = em.createQuery(jpql, Employee.class);
         query.setParameter("deptId", 1);
         List<Employee> resultList = query.getResultList();
+        System.out.println("dept 1 에는 " + resultList.size() + "명의 사원이 있음");
         
         jpql = "select count(e), sum(e.salary), avg(e.salary), max(e.salary), min(e.salary) from Employee e" ;
         Object singleResult = em.createQuery(jpql).getSingleResult();
 
         System.out.println("DB에서 가져옴");
         System.out.println("영속 상태");
-        Employee e2 = em.find(Employee.class, "202301");
+        Employee e3 = em.find(Employee.class, "202301");
         System.out.println("1차 캐시에서 가져옴");
 
         System.out.println("커밋 전");
