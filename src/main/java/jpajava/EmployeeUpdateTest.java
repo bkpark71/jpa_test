@@ -1,5 +1,6 @@
 package jpajava;
 
+import domain.Department;
 import domain.Employee;
 
 import javax.persistence.EntityManager;
@@ -22,10 +23,16 @@ public class EmployeeUpdateTest {
             System.out.println("영속 상태");
 
             System.out.println("수정 전 ==> ");
-            e1.setDeptId(3);
+            System.out.println("현재 부서는 :" + e1.getDepartment().getDeptName());
 
+            Department newDept = new Department();
+            newDept.setDeptName("newTeam");
+            em.persist(newDept);
+
+            e1.setDepartment(newDept);
             em.persist(e1);
             System.out.println("수정 후 ==> ");
+            System.out.println("수정 후의 부서는 :" + e1.getDepartment().getDeptName());
 
             System.out.println("커밋 전 ==> ");
             tx.commit();

@@ -1,5 +1,6 @@
 package jpajava;
 
+import domain.Department;
 import domain.EmpType;
 import domain.Employee;
 
@@ -8,7 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class EmployeeTest {
+public class DepartmentTest {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
@@ -17,25 +18,22 @@ public class EmployeeTest {
         tx.begin();
         try {
             System.out.println("트랜잭션 시작 !!!");
-            Employee emp = new Employee("202301", "test1", null, EmpType.B, "2023-01-01", 300L);
-//            emp.setEmpId("202301");
-//            emp.setEmpName("홍길동");
-//            emp.setDeptId(1);
-//            emp.setJoinDate("2023-01-01");
-//            emp.setSalary(100_000_000L);
+            Department dept = new Department();
+            dept.setDeptName("개발팀");
             System.out.println("비영속 상태");
-            em.persist(emp);
+            em.persist(dept);
             System.out.println("영속 상태");
-            em.find(Employee.class, "202301");
+            em.find(Department.class, dept.getDeptId());
             System.out.println("1차 캐시에서 가져옴");
             System.out.println("커밋 전");
             tx.commit();
+            System.out.println("커밋 후");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             tx.rollback();
+        } finally {
+            em.close();
+            emf.close();
         }
-        System.out.println("커밋 후");
-        em.close();
-        emf.close();
     }
 }

@@ -22,7 +22,7 @@ public class EmployeeFlushTest {
             System.out.println("영속 상태");
 
             System.out.println("수정 전 ==> ");
-            e1.setDeptId(10);
+            e1.setDepartment(null);
 
             em.persist(e1);
             System.out.println("수정 후 ==> ");
